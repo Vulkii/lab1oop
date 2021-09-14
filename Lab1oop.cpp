@@ -19,11 +19,17 @@ int main(){
     // Свое заполнение
     int p, l;
     struct Node* start = NULL;
-
-    std::cout << "Enter number of lines in your sparse Matrix = ";
-    std::cin >> p;
+    do {
+        std::cout << "Enter number of lines in your sparse Matrix = ";
+        if (!(std::cin >> p))
+            return NULL;
+    } while (p < 1);
+    do {
     std::cout << std::endl << "Enter number of items in lines = ";
-    std::cin >> l;
+    if (!(std::cin >> l))
+        return NULL;
+    } while (l < 1);
+
     int **TestMatric = new int*[p];
 
     for (int i = 0; i < p; i++) {
@@ -50,7 +56,7 @@ int main(){
 
     DeleteList(start);
 
-    for (int i = 0; i < p; i++) { 
+    for (int i = 0; i < p; i++) {  // fix
         delete[] TestMatric[i];
         
     }
