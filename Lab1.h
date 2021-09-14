@@ -7,15 +7,10 @@ namespace Prog1 {
     struct Node
 
     {
-
         int value;
-
         int row_position;
-
         int column_postion;
-
         struct Node* next;
-
     };
 
 
