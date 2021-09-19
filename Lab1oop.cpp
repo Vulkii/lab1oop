@@ -9,16 +9,13 @@
 #define DBG_NEW new
 #endif
 
-
-
-
 using namespace Prog1;
 
-int main(){
+int main() {
+    int p, l, k, choose;
+    struct Node* initmatr = NULL;
+    struct Node* newmatr = NULL;
 
-    // Свое заполнение
-    int p, l, k;
-    struct Node* modified = NULL;
     do {
         std::cout << "Enter number of lines in your sparse Matrix = ";
         if (!(std::cin >> p))
@@ -29,135 +26,46 @@ int main(){
         if (!(std::cin >> l))
             return -1;
     } while (l < 1);
-    
-    for (int i = 0; i < p; i++) {
-        for (int j = 0; j < l; j++) {
-            std::cout << "Enter [" << j + 1 << "] elem into [" << i + 1 << "] line = " << std::endl;
-            do {
-                if (!(std::cin >> k))
-                    return -1;
-            } while (k < -1);
-            
-            if (k > 0) {
-                create_new_node(&modified, k, i, j);
-            }
-        }
-    }
 
 
-    PrintList(modified);
-    std::cout << "\nOur Matrix\n";
-    PrintMatr(modified, p, l);
-    std::cout << "\nNew Matrix\n";
-    PrintNewMatr(modified, p, l);
-
-    DeleteList(modified);
+    initmatr = input(p, l);
 
 
-    _CrtDumpMemoryLeaks();
-    return 0;
-}
+    std::cout << "\nOld Matrix\n";
+    PrintMatr(initmatr, p, l);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*
-    // Свое заполнение
-    int p, l;
-    struct Node* start = NULL;
     do {
-        std::cout << "Enter number of lines in your sparse Matrix = ";
-        if (!(std::cin >> p))
+        std::cout << std::endl << "Enter which mode do you want \nIf you want all digits > 2 type: 1. \nIf you want all digits are even - type: 2.\n";
+        if (!(std::cin >> choose))
             return -1;
-    } while (p < 1);
-    do {
-    std::cout << std::endl << "Enter number of items in lines = ";
-    if (!(std::cin >> l))
-        return -1;
-    } while (l < 1);
+    } while ((choose < 0) && (choose > 2));
 
-    int **TestMatric = new int*[p];
+    switch (choose) {
+        case 1:
+            newmatr = modify(initmatr, p, l, digitsmorethen2);
+            break;
+        case 2:
+            newmatr = modify(initmatr, p, l, onlyevendigits);
+            break;
+    }   
+   std::cout << "\nNew Matrix\n";
+   PrintMatr(newmatr, p, l);
 
-    for (int i = 0; i < p; i++) {
-        TestMatric[i] = new int[i];
-    }
+   DeleteList(initmatr);
+   DeleteList(newmatr);
 
-    for (int i = 0; i < p; i++) {
-        for (int j = 0; j < l; j++) {
-            std::cout << "Enter [" << j + 1 << "] elem into [" << i + 1 << "] line = " << std::endl;
-            do {
-                if (!(std::cin >> TestMatric[i][j]))
-                    return -1;
-            } while (TestMatric[i][j] < -1);
-        }
-    }
-    for (int i = 0; i < p; i++)
-        for (int j = 0; j < l; j++)
-             if (TestMatric[i][j] != 0)
-                create_new_node(&start, TestMatric[i][j], i, j);
 
-    PrintList(start);
-    std::cout << "\nOur Matrix\n";
-    PrintMatr(start, p, l);
-    std::cout << "\nNew Matrix\n";
-    PrintNewMatr(start, p, l);
-
-    DeleteList(start);
-    
-   for (int i = 0; i < p; i++) {  // fix
-      delete[] TestMatric[i];
-
-    }
-    delete[] TestMatric;
- 
     _CrtDumpMemoryLeaks();
     return 0;
 }
+/*
+
+         0 2 3 -> 1 0 5 -> 1 1 61 -> 1 2 44 -> 2 0 14 -> 2 1 39 -> 2 2 4
+
+     0  0 0 3 
+     1  5 61 44
+     2  14 39 4
+
+        0  1  2
+        
 */
-
-    /*
-    // АВТОЗАПОЛНЕНИЕ
-    struct Node* start = NULL;
-    int sparseMatric[4][5] =
-
-    {
-
-        {1 , 1 , 3 , 0 , 1 },
-
-        {0 , 0 , 5 , 7 , -1 },
-
-        {0 , 0 , 0 , 1 , 0 },
-
-        {0 , 2 , 0 , 6 , 0 }
-
-    };
-
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 5; j++)
-            if (sparseMatric[i][j] != 0)
-                create_new_node(&start, sparseMatric[i][j], i, j);
-
-    PrintList(start);
-    std::cout << "\nOur Matrix\n";
-    PrintMatr(start, 4, 5);
-    std::cout << "\nNew Matrix\n";
-    PrintNewMatr(start, 4, 5);
-
-    DeleteList(start);
-    _CrtDumpMemoryLeaks();
-
-    return 0;
-
-}
-*/
-

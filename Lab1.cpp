@@ -49,38 +49,6 @@ namespace Prog1 {
 
     }
 
-
-
-
-    void PrintList(struct Node* start)
-
-    {
-        struct Node* temp, * r, * s;
-        temp = r = s = start;
-        printf("row_position: ");
-        while (temp != NULL) {
-            printf("%d ", temp->row_position);
-            temp = temp->next;
-        }
-
-        printf("\n");
-        printf("column_postion: ");
-
-        while (r != NULL){
-            printf("%d ", r->column_postion);
-            r = r->next;
-        }
-
-        printf("\n");
-        printf("Value: ");
-
-        while (s != NULL){
-            printf("%d ", s->value);
-            s = s->next;
-        }
-        printf("\n");
-    }
-
     void PrintMatr(struct Node* start, int p, int l) {
         struct Node* end = NULL;
         end = start;
@@ -99,25 +67,80 @@ namespace Prog1 {
         }
     }
 
-    void PrintNewMatr(struct Node* start, int p, int l) {
-        struct Node* end = NULL;
-        end = start;
-        for (int i = 0; i < p; i++) {
-            for (int j = 0; j < l; j++) {
-                if ((i == end->row_position) && (j == end->column_postion)) {
-                    if (end->value > 2)
-                            std::cout << end->value << " ";
-                        if (end->next!=NULL)
-                    end = end->next;
-                }
-                else {
-                    std::cout << "0 ";
-                }
+     int onlyevendigits(int x)
+    {
+        int lever = 1;
+        int count = x;
+        while (count > 0) {
+            if (count % 2 == 1) {
+                lever = 0;
             }
-            std::cout << "\n";
+            count = count / 10;
         }
+        return lever;
+    }
+
+
+   int digitsmorethen2(int x)
+    {
+        int lever = 1;
+        int count = x;
+        while (count > 0) {
+            if (count % 10 <= 2)
+                lever = 0;
+            count = count / 10;
+        }
+        return lever;
     }
 
 
 
+    Node* input(int p, int l) {
+        struct Node* modified = NULL;
+        int k, line, numinl;
+        for (int j = 0; j < l * p; j++) {
+            std::cout << "In which line do you want to add non-zero elem?" << std::endl;
+            std::cin >> line; std::cout << std::endl;
+            if (line == -1)
+                break;
+            std::cout << "In which pos in line?" << std::endl;
+            std::cin >> numinl; std::cout << std::endl;
+            if ((line == -1) || (numinl == -1)) {
+                break;
+            }
+            std::cout << "Enter the value of elem" << std::endl;
+            do {
+                if (!(std::cin >> k))
+                    break;
+            } while (k < -1);
+
+            if (k > 0) {
+                create_new_node(&modified, k, line, numinl);
+            }
+        }
+        return modified;
+    }
+
+
+    Node* modify(struct Node* start, int p, int l, int(*f)(int)) {
+        struct Node* newmatr = NULL;
+        struct Node* end = NULL;
+        end = start;
+        int lever;
+        for (int i = 0; i < p; i++) {
+            for (int j = 0; j < l; j++) {
+                if ((i == end->row_position) && (j == end->column_postion)) {
+                    lever = f(end->value);
+                    if (lever == 1)
+                            create_new_node(&newmatr, end->value, i, j);
+                    if (end->next != NULL)
+                        end = end->next;
+                }
+            }
+        }
+        return newmatr;
+        
+    }
+
 }
+

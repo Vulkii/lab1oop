@@ -16,7 +16,9 @@ namespace Prog1 {
 
     void create_new_node(struct Node** start, int non_zero_element, int row_index, int column_index);
     void DeleteList(struct Node* start);
-    void PrintList(struct Node* start);
-    void PrintNewMatr(struct Node* start, int p, int l);
     void PrintMatr(struct Node* start, int p, int l);
+    Node* input(int p, int l);
+    Node* modify(struct Node* start, int p, int l, int(*f)(int));
+    int onlyevendigits(int x);
+    int digitsmorethen2(int x);
 }
